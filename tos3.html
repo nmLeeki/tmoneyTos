@@ -117,14 +117,12 @@
     (function () {
         const i1 = document.getElementById('num_01');
         const i2 = document.getElementById('num_02');
-        const maskBox1 = i1.closest('.t_input_mask'); //필요 없을 시 주석처리하면 마스킹 처리가 안됨
-        const maskBox2 = i2.closest('.t_input_mask'); //필요 없을 시 주석처리하면 마스킹 처리가 안됨
+        const maskBox1 = i1.closest('.t_input_mask');
+        const maskBox2 = i2.closest('.t_input_mask');
         const btn = document.querySelector('.t_input_btn');
         const submitBtn = document.querySelector('.t_submit_btn');
         const onlyNum = (v) => v.replace(/\D/g, '');
-        const PEEK_MS = 500; // 마지막 숫자 보이는 시간(ms)
-        let maskTimeout1 = null;
-        let maskTimeout2 = null;
+
         function updateBtn() {
             const full = i1.value.length === 6 && i2.value.length === 7;
             btn.disabled = !full;
@@ -134,64 +132,46 @@
                 btn.classList.remove('active');
             }
         }
-        // 전체 마스킹
+
+        // 앞자리는 마스킹 없이 숫자 그대로
         function updateMask1() {
-            const len = i1.value.length;
-            maskBox1.setAttribute('data-mask', len ? '●'.repeat(len) : '');
+            maskBox1.setAttribute('data-mask', i1.value);
         }
+
+        // 뒷자리는 항상 동그라미로 마스킹
         function updateMask2() {
             const len = i2.value.length;
-            maskBox2.setAttribute('data-mask', len ? '●'.repeat(len) : '');
+            maskBox2.setAttribute('data-mask', len === 0 ? '' : '●'.repeat(len));
         }
 
-        // 입력 시: 마지막 글자만 피크
         function onInput1(e) {
-            const val = onlyNum(e.target.value).slice(0, 6);
+            let val = onlyNum(e.target.value).slice(0, 6);
             e.target.value = val;
             updateBtn();
-
-            if (maskTimeout1) clearTimeout(maskTimeout1);
-            if (val.length === 0) {
-                maskBox1.setAttribute('data-mask', '');
-            } else {
-                maskBox1.setAttribute('data-mask', '●'.repeat(val.length - 1) + val.charAt(val.length - 1));
-                maskTimeout1 = setTimeout(updateMask1, PEEK_MS);
-            }
-
+            updateMask1();
             if (val.length === 6) {
-                if (maskTimeout1) { clearTimeout(maskTimeout1); maskTimeout1 = null; }
-                updateMask1();
                 i2.focus();
                 handleFocus(i2,240);
             }
         }
 
         function onInput2(e) {
-            const val = onlyNum(e.target.value).slice(0, 7);
+            let val = onlyNum(e.target.value).slice(0, 7);
             e.target.value = val;
             updateBtn();
-
-            if (maskTimeout2) clearTimeout(maskTimeout2);
-            if (val.length === 0) {
-                maskBox2.setAttribute('data-mask', '');
-            } else {
-                maskBox2.setAttribute('data-mask', '●'.repeat(val.length - 1) + val.charAt(val.length - 1));
-                maskTimeout2 = setTimeout(updateMask2, PEEK_MS);
-            }
+            updateMask2();
         }
 
-        // 뒤 칸에서 백스페이스 시 앞 칸으로
         function onKeydown2(e) {
             if (e.key === 'Backspace' && i2.value.length === 0) {
                 i1.focus();
                 handleFocus(i1,240);
                 const len = i1.value.length;
                 i1.setSelectionRange(len, len);
-                updateMask();
+                updateMask1();
             }
         }
 
-        // 붙여넣기 처리
         function onPaste(e) {
             const text = (e.clipboardData || window.clipboardData).getData('text');
             const digits = onlyNum(text);
@@ -203,6 +183,8 @@
                 i2.value = b.slice(0, 7);
                 i2.focus();
                 updateBtn();
+                updateMask1();
+                updateMask2();
             }
         }
 
@@ -212,9 +194,10 @@
         i1.addEventListener('paste', onPaste);
         i2.addEventListener('paste', onPaste);
 
-        // 초기 버튼 상태
         updateBtn();
-        // 버튼 클릭 시 주민등록번호 출력
+        updateMask1();
+        updateMask2();
+
         btn.addEventListener('click', function () {
             if (btn.disabled) return;
             console.log('주민등록번호:', i1.value + '-' + i2.value);
