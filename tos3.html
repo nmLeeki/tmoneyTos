@@ -75,34 +75,58 @@
     function attachInputScroll(inputEl) {
         if (!inputEl) return () => {};
 
+        let startX = 0, startY = 0;
+        let allowBlur = false;
+        let blurTimer = null;
+        const MOVE_THRESHOLD = 8; // 스크롤로 판단할 최소 이동(px)
+
+        const onInputTouchStart = (e) => {
+            if (document.activeElement !== inputEl) inputEl.focus();
+            try {
+                const len = inputEl.value?.length ?? 0;
+                inputEl.setSelectionRange?.(len, len);
+            } catch (_) {}
+
+            allowBlur = false;
+            clearTimeout(blurTimer);
+            blurTimer = setTimeout(() => { allowBlur = true; }, 250);
+
+            const t = e.touches && e.touches[0];
+            if (t) { startX = t.clientX; startY = t.clientY; }
+
+            // setTimeout(() => inputEl.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300);
+        };
+
         const handleScroll = (e) => {
+            if (!allowBlur) return; // 초기 포커스 타이밍엔 blur 금지
+
+            // 손가락 이동 거리가 작으면 스크롤로 보지 않음
+            const t = e.touches && e.touches[0];
+            if (t) {
+                const dx = Math.abs(t.clientX - startX);
+                const dy = Math.abs(t.clientY - startY);
+                if (dx < MOVE_THRESHOLD && dy < MOVE_THRESHOLD) return;
+            }
+
             const ae = document.activeElement;
-            // 현재 포커스가 이 input이거나, 터치가 이 input 내부에서 발생하면 blur
             if (ae === inputEl || (inputEl.contains && inputEl.contains(e.target))) {
-                if (ae && typeof ae.blur === 'function') ae.blur();
+                ae?.blur?.();
             }
         };
 
+        inputEl.addEventListener('touchstart', onInputTouchStart, { passive: true });
         window.addEventListener('touchmove', handleScroll, { passive: true });
-        // 데스크톱 스크롤까지 막고 싶으면 아래도 켜세요
+        // 데스크톱까지 커버하려면 scroll도 추가
         // window.addEventListener('scroll', handleScroll, { passive: true });
 
-        // 해제 함수 반환(필요 시 호출)
+        // 해제 함수
         return () => {
+            clearTimeout(blurTimer);
+            inputEl.removeEventListener('touchstart', onInputTouchStart);
             window.removeEventListener('touchmove', handleScroll);
             // window.removeEventListener('scroll', handleScroll);
         };
     }
-
-    // 적용: 두 input 모두 등록
-    const i1 = document.getElementById('num_01');
-    const i2 = document.getElementById('num_02');
-
-    const detach1 = attachInputScroll(i1);
-    const detach2 = attachInputScroll(i2);
-
-    // 페이지 전환 등으로 해제해야 하면
-     detach1(); detach2();
 
 
     // 마스킹 처리 및 주민등록번호 입력 처리

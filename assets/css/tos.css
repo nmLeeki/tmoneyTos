@@ -147,6 +147,7 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
 }
 .t_num_wrap{
     margin-top: 86px;
+    margin-bottom: 92px;
 }
 .t_num_wrap > span{
     color: #5C5C5C;
