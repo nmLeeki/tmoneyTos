@@ -213,9 +213,6 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
 .t_input.front{
     flex:0.85;
 }
-.t_input.front input{
-    letter-spacing: 10px;
-}
 
 .t_input_mask {
     position: relative;
