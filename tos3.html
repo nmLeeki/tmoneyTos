@@ -75,6 +75,15 @@
     function attachInputScroll(inputEl) {
         if (!inputEl) return () => {};
 
+        const handleFocus = () => {
+            // 키패드가 가리지 않도록 약간 아래로 스크롤
+            // 1) 해당 요소를 화면 중앙으로 부드럽게 이동
+            inputEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+
+            // 2) 또는 직접 스크롤 위치 조절 (원하면 이걸로 대체)
+            // window.scrollTo({ top: inputEl.offsetTop - 100, behavior: 'smooth' });
+        };
+
         const handleScroll = (e) => {
             const ae = document.activeElement;
             // 현재 포커스가 이 input이거나, 터치가 이 input 내부에서 발생하면 blur
@@ -83,14 +92,13 @@
             }
         };
 
+        inputEl.addEventListener('focus', handleFocus);
         window.addEventListener('touchmove', handleScroll, { passive: true });
-        // 데스크톱 스크롤까지 막고 싶으면 아래도 켜세요
-        // window.addEventListener('scroll', handleScroll, { passive: true });
 
-        // 해제 함수 반환(필요 시 호출)
+        // 해제 함수 반환
         return () => {
+            inputEl.removeEventListener('focus', handleFocus);
             window.removeEventListener('touchmove', handleScroll);
-            // window.removeEventListener('scroll', handleScroll);
         };
     }
 
@@ -101,8 +109,8 @@
     const detach1 = attachInputScroll(i1);
     const detach2 = attachInputScroll(i2);
 
-    // 페이지 전환 등으로 해제해야 하면
-     detach1(); detach2();
+    // 페이지 전환 등으로 해제
+    // detach1(); detach2();
 
 
     // 마스킹 처리 및 주민등록번호 입력 처리
