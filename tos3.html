@@ -77,11 +77,13 @@
 
         const handleFocus = () => {
             // 키패드가 가리지 않도록 약간 아래로 스크롤
-            // 1) 해당 요소를 화면 중앙으로 부드럽게 이동
-            inputEl.scrollIntoView({ block: 'center', behavior: 'smooth' });
+            setTimeout(() => {
+                const rect = inputEl.getBoundingClientRect();
+                const scrollY = window.scrollY || document.documentElement.scrollTop;
+                const targetY = rect.top + scrollY - 50; // 50px 위로 스크롤
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }, 300); // 약간의 지연 후 실행
 
-            // 2) 또는 직접 스크롤 위치 조절 (원하면 이걸로 대체)
-            // window.scrollTo({ top: inputEl.offsetTop - 100, behavior: 'smooth' });
         };
 
         const handleScroll = (e) => {
