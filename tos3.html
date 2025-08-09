@@ -90,10 +90,10 @@
         };
     }
 
-    const handleFocus = (inputEl) => {
+    const handleFocus = (inputEl,num) => {
         setTimeout(() => {
             const rect = inputEl.getBoundingClientRect();
-            const targetY = rect.top - 240; // 50px 위로 스크롤
+            const targetY = rect.top - 240 + num; // 50px 위로 스크롤
             window.scrollTo({ top: targetY, behavior: 'smooth' });
         }, 1); // 약간의 지연 후 실행
 
@@ -105,8 +105,8 @@
 
     const detach1 = attachInputScroll(i1);
     const detach2 = attachInputScroll(i2);
-    i1.addEventListener('focus', () => handleFocus(i1));
-    i2.addEventListener('focus', () => handleFocus(i2));
+    i1.addEventListener('focus', () => handleFocus(i1,0));
+    i2.addEventListener('focus', () => handleFocus(i2,0));
     // 페이지 전환 등으로 해제
     // detach1(); detach2();
 
@@ -139,7 +139,7 @@
             e.target.value = val;
             if (val.length === 6) {
                 i2.focus();
-                handleFocus(i2);
+                handleFocus(i2,240);
             }
             updateBtn();
             updateMask();
@@ -156,7 +156,7 @@
         function onKeydown2(e) {
             if (e.key === 'Backspace' && i2.value.length === 0) {
                 i1.focus();
-                handleFocus(i1);
+                handleFocus(i1,240);
                 const len = i1.value.length;
                 i1.setSelectionRange(len, len);
                 updateMask();
