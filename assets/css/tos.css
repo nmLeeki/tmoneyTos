@@ -38,10 +38,10 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
 /* form properties */
 .hide { clip: rect(0 0 0 0); width: 1px; height: 1px; position: absolute; overflow: hidden; margin: -1px; padding: 0; border: 0; }
 /*font 및 reset css ed*/
+.tos_body{background:#f7f7f7;}
 .t_container{
     width: 100%;
     padding: 16px;
-    background: #F7F7F7;
 }
 .t_box{
     border-radius: 4px;
