@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="assets/css/tos.css" />
     <title>티머니 이용안내 - 완료</title>
 </head>
-<body class="tos_body">
+<body>
 <div class="t_container">
   <div class="t_box type2">
       <div class="t_body">
@@ -71,6 +71,41 @@
             return false;
         }
     });
+    // input에 포커스 시 스크롤 버그 방지 로직
+    function attachInputScroll(inputEl) {
+        if (!inputEl) return () => {};
+
+        const handleScroll = (e) => {
+            const ae = document.activeElement;
+            // 현재 포커스가 이 input이거나, 터치가 이 input 내부에서 발생하면 blur
+            if (ae === inputEl || (inputEl.contains && inputEl.contains(e.target))) {
+                if (ae && typeof ae.blur === 'function') ae.blur();
+            }
+        };
+
+        window.addEventListener('touchmove', handleScroll, { passive: true });
+        // 데스크톱 스크롤까지 막고 싶으면 아래도 켜세요
+        // window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // 해제 함수 반환(필요 시 호출)
+        return () => {
+            window.removeEventListener('touchmove', handleScroll);
+            // window.removeEventListener('scroll', handleScroll);
+        };
+    }
+
+    // 적용: 두 input 모두 등록
+    const i1 = document.getElementById('num_01');
+    const i2 = document.getElementById('num_02');
+
+    const detach1 = attachInputScroll(i1);
+    const detach2 = attachInputScroll(i2);
+
+    // 페이지 전환 등으로 해제해야 하면
+    // detach1(); detach2();
+
+
+    // 마스킹 처리 및 주민등록번호 입력 처리
     (function () {
         const i1 = document.getElementById('num_01');
         const i2 = document.getElementById('num_02');
