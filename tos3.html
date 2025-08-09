@@ -80,7 +80,7 @@
             setTimeout(() => {
                 const rect = inputEl.getBoundingClientRect();
                 const scrollY = window.scrollY || document.documentElement.scrollTop;
-                const targetY = rect.top + scrollY - 50; // 50px 위로 스크롤
+                const targetY = rect.top; // 50px 위로 스크롤
                 window.scrollTo({ top: targetY, behavior: 'smooth' });
             }, 300); // 약간의 지연 후 실행
 
