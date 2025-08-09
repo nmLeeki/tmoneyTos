@@ -117,11 +117,14 @@
     (function () {
         const i1 = document.getElementById('num_01');
         const i2 = document.getElementById('num_02');
-        const maskBox1 = i1.closest('.t_input_mask');
-        const maskBox2 = i2.closest('.t_input_mask');
+        const maskBox1 = i1.closest('.t_input_mask'); //필요 없을 시 주석처리하면 마스킹 처리가 안됨
+        const maskBox2 = i2.closest('.t_input_mask'); //필요 없을 시 주석처리하면 마스킹 처리가 안됨
         const btn = document.querySelector('.t_input_btn');
         const submitBtn = document.querySelector('.t_submit_btn');
         const onlyNum = (v) => v.replace(/\D/g, '');
+        const PEEK_MS = 500; // 마지막 숫자 보이는 시간(ms)
+        let maskTimeout1 = null;
+        let maskTimeout2 = null;
         function updateBtn() {
             const full = i1.value.length === 6 && i2.value.length === 7;
             btn.disabled = !full;
@@ -131,27 +134,49 @@
                 btn.classList.remove('active');
             }
         }
-        function updateMask() {
-            maskBox1.setAttribute('data-mask', '●'.repeat(i1.value.length));
-            maskBox2.setAttribute('data-mask', '●'.repeat(i2.value.length));
+        // 전체 마스킹
+        function updateMask1() {
+            const len = i1.value.length;
+            maskBox1.setAttribute('data-mask', len ? '●'.repeat(len) : '');
+        }
+        function updateMask2() {
+            const len = i2.value.length;
+            maskBox2.setAttribute('data-mask', len ? '●'.repeat(len) : '');
         }
 
+        // 입력 시: 마지막 글자만 피크
         function onInput1(e) {
-            let val = onlyNum(e.target.value).slice(0, 6);
+            const val = onlyNum(e.target.value).slice(0, 6);
             e.target.value = val;
-            if (val.length === 6) {
-                i2.focus();
-                handleFocus(i2,240);
+            updateBtn();
+
+            if (maskTimeout1) clearTimeout(maskTimeout1);
+            if (val.length === 0) {
+                maskBox1.setAttribute('data-mask', '');
+            } else {
+                maskBox1.setAttribute('data-mask', '●'.repeat(val.length - 1) + val.charAt(val.length - 1));
+                maskTimeout1 = setTimeout(updateMask1, PEEK_MS);
             }
-            updateBtn();
-            updateMask();
+
+            if (val.length === 6) {
+                if (maskTimeout1) { clearTimeout(maskTimeout1); maskTimeout1 = null; }
+                updateMask1();
+                i2.focus();
+            }
         }
-        // 2칸 입력 처리 (표시는 ●, 실제 값은 realValue에 저장)
+
         function onInput2(e) {
-            let val = onlyNum(e.target.value).slice(0, 7);
+            const val = onlyNum(e.target.value).slice(0, 7);
             e.target.value = val;
             updateBtn();
-            updateMask();
+
+            if (maskTimeout2) clearTimeout(maskTimeout2);
+            if (val.length === 0) {
+                maskBox2.setAttribute('data-mask', '');
+            } else {
+                maskBox2.setAttribute('data-mask', '●'.repeat(val.length - 1) + val.charAt(val.length - 1));
+                maskTimeout2 = setTimeout(updateMask2, PEEK_MS);
+            }
         }
 
         // 뒤 칸에서 백스페이스 시 앞 칸으로

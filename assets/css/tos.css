@@ -207,7 +207,8 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
 .t_input input::placeholder{
     font-size: 11px;
     color: #ccc;
-    letter-spacing: 8px;
+    letter-spacing: 6px;
+    line-height: 46px;
 }
 .t_input.front{
     flex:0.85;
@@ -220,8 +221,8 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
     position: relative;
 }
 .t_input_mask input {
-    color: transparent;           /* 실제 입력 숨기기 */
-    caret-color: black;           /* 커서만 보이게 */
+    color: transparent;
+    caret-color: black;
 }
 .t_input_mask::before {
     content: attr(data-mask);
@@ -230,7 +231,6 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
     left: 0;
     width: 100%;
     padding: 0 10px;
-    font-size: 10px;
     transform: translateY(-50%);
     font-size: 13px;
     letter-spacing: 6px;
