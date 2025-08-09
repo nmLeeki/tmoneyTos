@@ -74,17 +74,6 @@
     // input에 포커스 시 스크롤 버그 방지 로직
     function attachInputScroll(inputEl) {
         if (!inputEl) return () => {};
-
-        const handleFocus = () => {
-            // 키패드가 가리지 않도록 약간 아래로 스크롤
-            setTimeout(() => {
-                const rect = inputEl.getBoundingClientRect();
-                const targetY = rect.top - 240; // 50px 위로 스크롤
-                window.scrollTo({ top: targetY, behavior: 'smooth' });
-            }, 1); // 약간의 지연 후 실행
-
-        };
-
         const handleScroll = (e) => {
             const ae = document.activeElement;
             // 현재 포커스가 이 input이거나, 터치가 이 input 내부에서 발생하면 blur
@@ -93,15 +82,22 @@
             }
         };
 
-        inputEl.addEventListener('focus', handleFocus);
         window.addEventListener('touchmove', handleScroll, { passive: true });
 
         // 해제 함수 반환
         return () => {
-            inputEl.removeEventListener('focus', handleFocus);
             window.removeEventListener('touchmove', handleScroll);
         };
     }
+
+    const handleFocus = (inputEl) => {
+        setTimeout(() => {
+            const rect = inputEl.getBoundingClientRect();
+            const targetY = rect.top - 240; // 50px 위로 스크롤
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }, 1); // 약간의 지연 후 실행
+
+    };
 
     // 적용: 두 input 모두 등록
     const i1 = document.getElementById('num_01');
@@ -109,7 +105,8 @@
 
     const detach1 = attachInputScroll(i1);
     const detach2 = attachInputScroll(i2);
-
+    i1.addEventListener('focus', () => handleFocus(i1));
+    i2.addEventListener('focus', () => handleFocus(i2));
     // 페이지 전환 등으로 해제
     // detach1(); detach2();
 
