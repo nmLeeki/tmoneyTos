@@ -69,6 +69,8 @@
             e.preventDefault();
             e.stopPropagation();
             return false;
+        }else{
+            alert('샘플 예시입니다. 주민등록번호: ' + document.getElementById('num_01').value + '-' + document.getElementById('num_02').value);
         }
     });
     // input에 포커스 시 스크롤 버그 방지 로직
