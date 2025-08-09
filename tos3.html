@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="assets/css/tos.css" />
+    <title>티머니 이용안내 - 완료</title>
+</head>
+<body class="tos_body">
+<div class="t_container">
+  <div class="t_box type2">
+      <div class="t_body">
+         <div class="t_finish">
+             <div class="t_img_box">
+                 <img src="./assets/images/ic_check_main.png" alt="체크 아이콘" />
+             </div>
+             <p class="t_title">
+                 <b>모바일 어르신교통카드</b>
+                 발급 안내 사항 확인 완료
+             </p>
+             <p class="t_subTitle">
+                 모바일 어르신교통카드 발급을 위한<br />
+                 안내 사항 확인이 완료되었습니다.
+             </p>
+         </div>
+      </div>
+  </div>
+   <div class="t_num_wrap">
+      <span>주민등록번호</span>
+      <div class="t_num_box">
+          <div class="t_input_box">
+              <div class="t_input front t_input_mask">
+                  <input type="text" placeholder="●●●●●●" maxlength="6" inputmode="numeric" id="num_01" name="num_01" title="주민등록번호 앞자리" />
+              </div>
+              <span>-</span>
+              <div class="t_input t_input_mask">
+                  <input class="secure" type="text" placeholder="●●●●●●●" maxlength="7" inputmode="numeric" id="num_02" name="num_02" title="주민등록번호 뒷자리" />
+              </div>
+          </div>
+          <button type="button" class="t_input_btn">확인</button>
+      </div>
+   </div>
+    <div class="t_footer">
+        <button class="t_submit_btn">발급하기</button>
+    </div>
+</div>
+
+
+
+<script>
+    const submitBtn = document.querySelector('.t_submit_btn');
+    document.querySelectorAll('.t_chk_input').forEach(input => {
+        input.addEventListener('change', () => {
+            const allChecked = Array.from(document.querySelectorAll('.t_chk_input'))
+                .every(chk => chk.checked);
+
+            if (allChecked) {
+                submitBtn.classList.add('active');
+            } else {
+                submitBtn.classList.remove('active');
+            }
+        });
+    });
+    // 초기 상태에서 버튼 비활성화
+    submitBtn.addEventListener('click', function(e) {
+        if (!submitBtn.classList.contains('active')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    });
+    (function () {
+        const i1 = document.getElementById('num_01');
+        const i2 = document.getElementById('num_02');
+        const maskBox1 = i1.closest('.t_input_mask');
+        const maskBox2 = i2.closest('.t_input_mask');
+        const btn = document.querySelector('.t_input_btn');
+        const submitBtn = document.querySelector('.t_submit_btn');
+        const onlyNum = (v) => v.replace(/\D/g, '');
+        function updateBtn() {
+            const full = i1.value.length === 6 && i2.value.length === 7;
+            btn.disabled = !full;
+            if (full) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        }
+        function updateMask() {
+            maskBox1.setAttribute('data-mask', '●'.repeat(i1.value.length));
+            maskBox2.setAttribute('data-mask', '●'.repeat(i2.value.length));
+        }
+
+        function onInput1(e) {
+            let val = onlyNum(e.target.value).slice(0, 6);
+            e.target.value = val;
+            if (val.length === 6) i2.focus();
+            updateBtn();
+            updateMask();
+        }
+        // 2칸 입력 처리 (표시는 ●, 실제 값은 realValue에 저장)
+        function onInput2(e) {
+            let val = onlyNum(e.target.value).slice(0, 7);
+            e.target.value = val;
+            updateBtn();
+            updateMask();
+        }
+
+        // 뒤 칸에서 백스페이스 시 앞 칸으로
+        function onKeydown2(e) {
+            if (e.key === 'Backspace' && i2.value.length === 0) {
+                i1.focus();
+                const len = i1.value.length;
+                i1.setSelectionRange(len, len);
+                updateMask();
+            }
+        }
+
+        // 붙여넣기 처리
+        function onPaste(e) {
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            const digits = onlyNum(text);
+            if (digits.length >= 7) {
+                e.preventDefault();
+                const a = digits.slice(0, 6);
+                const b = digits.slice(6, 13);
+                i1.value = a.slice(0, 6);
+                i2.value = b.slice(0, 7);
+                i2.focus();
+                updateBtn();
+            }
+        }
+
+        i1.addEventListener('input', onInput1);
+        i2.addEventListener('input', onInput2);
+        i2.addEventListener('keydown', onKeydown2);
+        i1.addEventListener('paste', onPaste);
+        i2.addEventListener('paste', onPaste);
+
+        // 초기 버튼 상태
+        updateBtn();
+        // 버튼 클릭 시 주민등록번호 출력
+        btn.addEventListener('click', function () {
+            if (btn.disabled) return;
+            console.log('주민등록번호:', i1.value + '-' + i2.value);
+            submitBtn.classList.add('active');
+        });
+    })();
+</script>
+</body>
+</html>

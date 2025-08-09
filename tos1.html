@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" href="assets/css/tos.css" />
+    <title>티머니 이용안내 - 발급</title>
+</head>
+<body class="tos_body">
+<div class="t_container">
+  <div class="t_box">
+      <div class="t_header">
+          <p class="t_title">
+              <b>모바일 어르신교통카드 발급을 위해</b>
+              안내 사항을 확인하고 체크해주세요.</p>
+      </div>
+      <div class="t_body">
+          <ul class="check_list list">
+              <li>
+                    <label class="t_chk_label" for="check1">
+                        <input class="t_chk_input" type="checkbox" id="check1" />
+                        <span>모바일 어르신교통카드 발급 시 사용중인 실물 우대용(어르신, 장애인) 교통카드는 이용이 중지되고 재사용이 불가합니다.</span>
+                    </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check2">
+                      <input class="t_chk_input" type="checkbox" id="check2" />
+                      <span>모바일 어르신교통카드 발급 완료 후 <b>실물 우대용(어르신, 장애인) 교통카드 재발급 시 수수료 3,000원</b> 부과됩니다.</span>
+                  </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check3">
+                      <input class="t_chk_input" type="checkbox" id="check3" />
+                      <span>대상자 자격(만65세 이상, 내국인 서울시주민)이 확인 된 경우에만 발급 가능하며, 발급 후 자격 변동 시 사전 통지 없이 발급이 중지될 수 있습니다.</span>
+                  </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check4">
+                      <input class="t_chk_input" type="checkbox" id="check4"/>
+                      <span>모바일 어르신교통카드는 1회 발급으로 계속 사용 가능하나, 이용자의 해지·자격변동·타카드발급 등으로 카드가 정지되면 2일 후부터 재발급 할 수 있습니다. 카드 발급 횟수는 월 3회로 제한됩니다.</span>
+                  </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check5">
+                      <input class="t_chk_input" type="checkbox" id="check5" />
+                      <span>앱 삭제 시에는 거래내역 동기화를 위해 3일 후부터 재사용 가능합니다. (휴대폰 변경 시에는 ‘휴대폰 변경하기’를 이용하면 바로 재사용 가능합니다.)</span>
+                  </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check6">
+                      <input class="t_chk_input" type="checkbox" id="check6" />
+                      <span>대여 또는 양도하거나 분실하여 부정 사용된 경우 <b>1년간 이용이 제한</b>됩니다.<br />(도난/분실 시에는 즉시 신고)</span>
+                  </label>
+              </li>
+              <li>
+                  <label class="t_chk_label" for="check7">
+                      <input class="t_chk_input" type="checkbox" id="check7" />
+                      <span>사용 중에는 신분증을 지참하고,<br />
+                            직원의 신분증 제시 요구 시 응해야 합니다.
+                      </span>
+                  </label>
+              </li>
+          </ul>
+      </div>
+  </div>
+    <div class="t_footer">
+        <button class="t_submit_btn">다음</button>
+    </div>
+</div>
+
+
+
+<script>
+    const submitBtn = document.querySelector('.t_submit_btn');
+    document.querySelectorAll('.t_chk_input').forEach(input => {
+        input.addEventListener('change', () => {
+            const allChecked = Array.from(document.querySelectorAll('.t_chk_input'))
+                .every(chk => chk.checked);
+
+            if (allChecked) {
+                submitBtn.classList.add('active');
+            } else {
+                submitBtn.classList.remove('active');
+            }
+        });
+    });
+    // 초기 상태에서 버튼 비활성화
+    submitBtn.addEventListener('click', function(e) {
+        if (!submitBtn.classList.contains('active')) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }
+    });
+</script>
+</body>
+</html>

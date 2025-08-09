@@ -1,0 +1,250 @@
+/*font 및 reset css st*/
+@font-face { font-family: 'Noto Sans'; font-weight: 200; font-style: normal; src: url("../../assets/fonts/NotoSansKR-Light.eot"); src: local(※), url("../../assets/fonts/NotoSansKR-Light.eot#iefix") format("embedded-opentype"), url("../../assets/fonts/NotoSansKR-Light.woff") format("woff"), url("../../assets/fonts/NotoSansKR-Light.otf") format("opentype"); }
+
+@font-face { font-family: 'Noto Sans'; font-weight: 300; font-style: normal; src: url("../../assets/fonts/NotoSansKR-DemiLight.eot"); src: local(※), url("../../assets/fonts/NotoSansKR-DemiLight.eot#iefix") format("embedded-opentype"), url("../../assets/fonts/NotoSansKR-DemiLight.woff") format("woff"), url("../../assets/fonts/NotoSansKR-DemiLight.otf") format("opentype"); }
+
+@font-face { font-family: 'Noto Sans'; font-weight: 400; font-style: normal; src: url("../../assets/fonts/NotoSansKR-Regular.eot"); src: local(※), url("../../assets/fonts/NotoSansKR-Regular.eot#iefix") format("embedded-opentype"), url("../../assets/fonts/NotoSansKR-Regular.woff") format("woff"), url("../../assets/fonts/NotoSansKR-Regular.otf") format("opentype"); }
+
+@font-face { font-family: 'Noto Sans'; font-weight: 500; font-style: normal; src: url("../../assets/fonts/NotoSansKR-Medium.eot"); src: local(※), url("../../assets/fonts/NotoSansKR-Medium.eot#iefix") format("embedded-opentype"), url("../../assets/fonts/NotoSansKR-Medium.woff") format("woff"), url("../../assets/fonts/NotoSansKR-Medium.otf") format("opentype"); }
+
+@font-face { font-family: 'Noto Sans'; font-weight: 700; font-style: normal; src: url("../../assets/fonts/NotoSansKR-Bold.eot"); src: local(※), url("../../assets/fonts/NotoSansKR-Bold.eot#iefix") format("embedded-opentype"), url("../../assets/fonts/NotoSansKR-Bold.woff") format("woff"), url("../../assets/fonts/NotoSansKR-Bold.otf") format("opentype"); }
+/********* reset.css **********/
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ul, ol, li, form, fieldset, legend, label, input, button, select, textarea, header, main, footer, section, article, aside, menu, nav, table, caption, tbody, tfoot, thead, tr, th, td, summary, figure, figcaption, hgroup { margin: 0; padding: 0; border: 0; font-weight: normal; font-family: 'Noto Sans', sans-serif; font-size: 16px; line-height: 1.5; color: #000; -webkit-box-sizing: border-box; box-sizing: border-box; }
+
+html, body { width: 100%; height: 100%; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
+
+h1, h2, h3, h4, h5, h6 { font-size: 1em; font-weight: normal; }
+
+
+ul, ol, li { list-style-type: none; }
+
+a { color: inherit; text-decoration: none; }
+
+img { max-width: 100%; border: 0 none; }
+
+address { font-style: normal; }
+
+button { margin: 0; padding: 0; -webkit-box-sizing: border-box; box-sizing: border-box; border: 0 none; background-color: transparent; font-family: inherit; font-size: inherit; cursor: pointer; }
+
+caption, legend { height: 1px; width: 1px; overflow: hidden; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); margin: -1px; position: static; }
+
+table { border-spacing: 0; border-collapse: collapse; table-layout: fixed; }
+
+ul::after, ol::after { content: ""; display: block; clear: both; }
+
+/* form properties */
+.hide { clip: rect(0 0 0 0); width: 1px; height: 1px; position: absolute; overflow: hidden; margin: -1px; padding: 0; border: 0; }
+/*font 및 reset css ed*/
+.tos_body{overflow: hidden}
+.t_container{
+    width: 100%;
+    height:100vh;
+    padding: 16px;
+    background: #F7F7F7;
+}
+.t_box{
+    max-height:calc(100% - 60px);
+    overflow: auto;
+    border-radius: 4px;
+    background: #fff;
+    padding: 30px 20px;
+}
+.t_footer{
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    bottom: 0;
+    left:0;
+    text-align: center;;
+}
+.t_submit_btn{
+    width: 100%;
+    height: 100%;
+    background: #DDD;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 400;
+}
+.t_submit_btn.active{
+    background: #8F54AE;
+}
+.t_header{
+    margin-bottom:30px;
+}
+.t_title{
+    font-size: 18px;
+    color: #111;
+    font-weight: 400;
+    line-height: 24px;
+}
+.t_title b{display: block; font-weight: 700}
+.t_subTitle{
+    color: #666;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    margin-top: 10px;
+}
+.check_list > li ~ li{margin-top: 20px}
+.check_list.box > li ~ li{margin-bottom:8px;}
+.check_list.box > li > a{
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.check_list.box > li > a > label > span{
+    padding: 19px 16px 19px 42px;
+}
+.t_chk_label input{
+    clip: rect(0 0 0 0); width: 1px; height: 1px; position: absolute; overflow: hidden; margin: -1px; padding: 0; border: 0;
+}
+.t_chk_label span{
+    display: block;
+    position: relative;
+    padding-left: 26px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #111;
+    word-break: keep-all;
+}
+.t_chk_label span b{
+    font-weight: 700;
+    font-size: inherit;
+}
+.t_chk_label input:checked + span:before{
+    background: url('../../assets/images/ic_check_on.png') no-repeat center / 18px auto;
+}
+.check_list.box .t_chk_label input + span:before{
+    top: 20px;
+    left: 16px;
+}
+.t_chk_label input + span:before{
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    background: url('../../assets/images/ic_check_off.png') no-repeat center / 18px auto;
+}
+.check_list.box .t_chk_label input + span:after{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    width: 20px;
+    height: 20px;
+    background: url('../../assets/images/ic_right_arrow.png') no-repeat center / 20px auto;
+}
+.t_finish{
+    text-align: center;
+    padding: 50px 0;
+}
+.t_finish .t_img_box{
+    width:40px;
+    margin: 0 auto 20px;
+}
+.t_num_wrap{
+    margin-top: 86px;
+}
+.t_num_wrap > span{
+    color: #5C5C5C;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.t_num_box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    gap: 5px;
+}
+.t_input_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+}
+.t_input_box > span{
+    color: #929292;
+    font-size: 20px;
+    margin: 0 4px;
+}
+.t_input{
+    flex: 1;
+}
+.t_input input{
+    width: 100%;
+    height: 46px;
+    color: #111;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    padding: 0 10px;
+    border-radius: 4px;
+    border: 1px solid #929292;
+    background: #FFF;
+    letter-spacing: 13px;
+}
+.t_input_btn{
+    width: 60px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: #DDD;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+.secure { -webkit-text-security: disc; }
+.t_input_btn.active {
+    background-color: #8F54AE;
+}
+.t_input input::placeholder{
+    font-size: 11px;
+    color: #ccc;
+    letter-spacing: 8px;
+}
+.t_input.front{
+    flex:0.85;
+}
+.t_input.front input{
+    letter-spacing: 10px;
+}
+
+.t_input_mask {
+    position: relative;
+}
+.t_input_mask input {
+    color: transparent;           /* 실제 입력 숨기기 */
+    caret-color: black;           /* 커서만 보이게 */
+}
+.t_input_mask::before {
+    content: attr(data-mask);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    padding: 0 10px;
+    font-size: 10px;
+    transform: translateY(-50%);
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: #111;
+    pointer-events: none;
+}
+@media (max-width: 380px) {
+    .t_input_mask::before {
+        font-size: 9px;
+    }
+    .t_input input::placeholder{
+        font-size: 9px;
+    }
+
+}
