@@ -137,7 +137,10 @@
         function onInput1(e) {
             let val = onlyNum(e.target.value).slice(0, 6);
             e.target.value = val;
-            if (val.length === 6) i2.focus();
+            if (val.length === 6) {
+                i2.focus();
+                handleFocus(i2);
+            }
             updateBtn();
             updateMask();
         }
@@ -153,6 +156,7 @@
         function onKeydown2(e) {
             if (e.key === 'Backspace' && i2.value.length === 0) {
                 i1.focus();
+                handleFocus(i1);
                 const len = i1.value.length;
                 i1.setSelectionRange(len, len);
                 updateMask();
