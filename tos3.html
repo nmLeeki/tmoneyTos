@@ -31,7 +31,7 @@
       <span>주민등록번호</span>
       <div class="t_num_box">
           <div class="t_input_box">
-              <div class="t_input front t_input_mask">
+              <div class="t_input front">
                   <input type="text" placeholder="●●●●●●" maxlength="6" inputmode="numeric" id="num_01" name="num_01" title="주민등록번호 앞자리" />
               </div>
               <span>-</span>
@@ -50,111 +50,59 @@
 
 
 <script>
-    const submitBtn = document.querySelector('.t_submit_btn');
-    document.querySelectorAll('.t_chk_input').forEach(input => {
-        input.addEventListener('change', () => {
-            const allChecked = Array.from(document.querySelectorAll('.t_chk_input'))
-                .every(chk => chk.checked);
-
-            if (allChecked) {
-                submitBtn.classList.add('active');
-            } else {
-                submitBtn.classList.remove('active');
-            }
-        });
-    });
-    // 초기 상태에서 버튼 비활성화
-    submitBtn.addEventListener('click', function(e) {
-        if (!submitBtn.classList.contains('active')) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
-        }else{
-            alert('샘플 예시입니다. 주민등록번호: ' + document.getElementById('num_01').value + '-' + document.getElementById('num_02').value);
-        }
-    });
-    // input에 포커스 시 스크롤 버그 방지 로직
-    function attachInputScroll(inputEl) {
-        if (!inputEl) return () => {};
-        const handleScroll = (e) => {
-            const ae = document.activeElement;
-            // 현재 포커스가 이 input이거나, 터치가 이 input 내부에서 발생하면 blur
-            if (ae === inputEl || (inputEl.contains && inputEl.contains(e.target))) {
-                if (ae && typeof ae.blur === 'function') ae.blur();
-            }
-        };
-
-        window.addEventListener('touchmove', handleScroll, { passive: true });
-
-        // 해제 함수 반환
-        return () => {
-            window.removeEventListener('touchmove', handleScroll);
-        };
-    }
-
-    const handleFocus = (inputEl,num) => {
-        setTimeout(() => {
-            const rect = inputEl.getBoundingClientRect();
-            const targetY = rect.top - 240 + num; // 50px 위로 스크롤
-            window.scrollTo({ top: targetY, behavior: 'smooth' });
-        }, 1); // 약간의 지연 후 실행
-
-    };
-
-    // 적용: 두 input 모두 등록
-    const i1 = document.getElementById('num_01');
-    const i2 = document.getElementById('num_02');
-
-    const detach1 = attachInputScroll(i1);
-    const detach2 = attachInputScroll(i2);
-    i1.addEventListener('focus', () => handleFocus(i1,0));
-    i2.addEventListener('focus', () => handleFocus(i2,0));
-    // 페이지 전환 등으로 해제
-    // detach1(); detach2();
-
-
-    // 마스킹 처리 및 주민등록번호 입력 처리
+    // 주민등록번호 입력 및 마스킹 처리 스크립트
     (function () {
-        const i1 = document.getElementById('num_01');
-        const i2 = document.getElementById('num_02');
-        const maskBox1 = i1.closest('.t_input_mask');
-        const maskBox2 = i2.closest('.t_input_mask');
-        const btn = document.querySelector('.t_input_btn');
-        const submitBtn = document.querySelector('.t_submit_btn');
+        // DOM 요소 캐싱
+        const i1 = document.getElementById('num_01'); // 앞자리 input
+        const i2 = document.getElementById('num_02'); // 뒷자리 input
+        const maskBox2 = i2.closest('.t_input_mask'); // 뒷자리 마스킹 박스
+        const btn = document.querySelector('.t_input_btn'); // 확인 버튼
+        const submitBtn = document.querySelector('.t_submit_btn'); // 발급 버튼
+
+        /**
+         * 숫자만 추출
+         * @description 입력값에서 숫자만 남김
+         */
         const onlyNum = (v) => v.replace(/\D/g, '');
 
+        /**
+         * 버튼 활성화/비활성화 처리
+         * @description 입력값이 모두 채워지면 버튼 활성화
+         */
         function updateBtn() {
             const full = i1.value.length === 6 && i2.value.length === 7;
             btn.disabled = !full;
-            if (full) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+            btn.classList.toggle('active', full);
         }
 
-        // 앞자리는 마스킹 없이 숫자 그대로
-        function updateMask1() {
-            maskBox1.setAttribute('data-mask', i1.value);
-        }
-
-        // 뒷자리는 항상 동그라미로 마스킹
+        /**
+         * 뒷자리 마스킹 처리
+         * @description 뒷자리는 항상 동그라미로 마스킹
+         */
         function updateMask2() {
             const len = i2.value.length;
             maskBox2.setAttribute('data-mask', len === 0 ? '' : '●'.repeat(len));
         }
 
+        /**
+         * 앞자리 입력 이벤트
+         * @description 숫자만 입력, 6자리 제한
+         */
         function onInput1(e) {
             let val = onlyNum(e.target.value).slice(0, 6);
             e.target.value = val;
             updateBtn();
-            updateMask1();
             if (val.length === 6) {
                 i2.focus();
-                handleFocus(i2,240);
+                handleFocus(i2, 240);
+                console.log('asd')
             }
         }
 
+        /**
+         * 뒷자리 입력 이벤트
+         * @description 숫자만 입력, 7자리 제한, 입력 시 마스킹 갱신
+         */
         function onInput2(e) {
             let val = onlyNum(e.target.value).slice(0, 7);
             e.target.value = val;
@@ -162,46 +110,108 @@
             updateMask2();
         }
 
+        /**
+         * 뒷자리에서 백스페이스 시 앞자리로 이동
+         * @description 뒷자리 값이 없을 때 백스페이스 누르면 앞자리로 포커스 이동
+         */
         function onKeydown2(e) {
             if (e.key === 'Backspace' && i2.value.length === 0) {
                 i1.focus();
-                handleFocus(i1,240);
+                handleFocus(i1, 240);
                 const len = i1.value.length;
                 i1.setSelectionRange(len, len);
-                updateMask1();
             }
         }
 
+        /**
+         * 붙여넣기 이벤트
+         * @description 붙여넣기 시 자동으로 앞/뒷자리 분리 입력
+         */
         function onPaste(e) {
             const text = (e.clipboardData || window.clipboardData).getData('text');
             const digits = onlyNum(text);
             if (digits.length >= 7) {
                 e.preventDefault();
-                const a = digits.slice(0, 6);
-                const b = digits.slice(6, 13);
-                i1.value = a.slice(0, 6);
-                i2.value = b.slice(0, 7);
+                i1.value = digits.slice(0, 6);
+                i2.value = digits.slice(6, 13);
                 i2.focus();
                 updateBtn();
-                updateMask1();
                 updateMask2();
             }
         }
 
+        /**
+         * input 포커스 시 스크롤 버그 방지
+         * @description 모바일에서 input 포커스 시 스크롤 튐 방지
+         */
+        function attachInputScroll(inputEl) {
+            if (!inputEl) return () => {};
+            const handleScroll = (e) => {
+                const ae = document.activeElement;
+                if (ae === inputEl || (inputEl.contains && inputEl.contains(e.target))) {
+                    if (ae && typeof ae.blur === 'function') ae.blur();
+                }
+            };
+            window.addEventListener('touchmove', handleScroll, { passive: true });
+            return () => window.removeEventListener('touchmove', handleScroll);
+        }
+
+        /**
+         * input 포커스 시 스크롤 위치 조정 (ios 버그 대응)
+         * @description 포커스된 input을 화면 중앙 근처로 이동
+         */
+        function handleFocus(inputEl, num) {
+            setTimeout(() => {
+                const rect = inputEl.getBoundingClientRect();
+                const targetY = rect.top - 240 + num;
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }, 1);
+        }
+
+        // 이벤트 바인딩
         i1.addEventListener('input', onInput1);
         i2.addEventListener('input', onInput2);
         i2.addEventListener('keydown', onKeydown2);
         i1.addEventListener('paste', onPaste);
         i2.addEventListener('paste', onPaste);
+        i1.addEventListener('focus', () => handleFocus(i1, 0));
+        i2.addEventListener('focus', () => handleFocus(i2, 0));
 
+        // 모바일 스크롤 버그 방지 적용
+        const detach1 = attachInputScroll(i1);
+        const detach2 = attachInputScroll(i2);
+
+        // 초기 상태 세팅
         updateBtn();
-        updateMask1();
         updateMask2();
+        // 페이지 언로드 시 이벤트 제거
+        window.addEventListener('beforeunload', () => {
+            detach1();
+            detach2();
+        });
 
+        /**
+         * 확인 버튼 클릭 이벤트
+         * @description 입력값이 모두 채워지면 발급 버튼 활성화
+         */
         btn.addEventListener('click', function () {
             if (btn.disabled) return;
             console.log('주민등록번호:', i1.value + '-' + i2.value);
             submitBtn.classList.add('active');
+        });
+
+        /**
+         * 발급 버튼 클릭 이벤트
+         * @description 활성화 상태에서만 alert 출력
+         */
+        submitBtn.addEventListener('click', function (e) {
+            if (!submitBtn.classList.contains('active')) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            } else {
+                alert('샘플 예시입니다. 주민등록번호: ' + i1.value + '-' + i2.value);
+            }
         });
     })();
 </script>
