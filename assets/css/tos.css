@@ -243,3 +243,8 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
     }
 
 }
+@media (min-width:768px){
+    .t_input.t_input_mask input{
+        letter-spacing: 13px;
+    }
+}
