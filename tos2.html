@@ -20,52 +20,46 @@
       <div class="t_body">
           <ul class="check_list box">
               <li>
-                   <a href="#none" target="_blank" class="t_chk_link">
-                       <label class="t_chk_label" for="check1">
-                           <input class="t_chk_input" type="checkbox" id="check1" />
-                           <span>약관 1</span>
-                       </label>
-                   </a>
+                  <label class="t_chk_label" for="check1">
+                      <input class="t_chk_input" type="checkbox" id="check1" />
+                      <span>약관 1</span>
+                  </label>
+                   <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
               <li>
-                  <a href="#none" target="_blank" class="t_chk_link">
-                      <label class="t_chk_label" for="check2">
-                          <input class="t_chk_input" type="checkbox" id="check2" />
-                          <span>약관 2</span>
-                      </label>
-                  </a>
+                  <label class="t_chk_label" for="check2">
+                      <input class="t_chk_input" type="checkbox" id="check2" />
+                      <span>약관 2</span>
+                  </label>
+                  <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
               <li>
-                  <a href="#none" target="_blank" class="t_chk_link">
-                    <label class="t_chk_label" for="check3">
-                        <input class="t_chk_input" type="checkbox" id="check3" />
-                        <span>약관 3</span>
-                    </label>
-                </a>
+                  <label class="t_chk_label" for="check3">
+                      <input class="t_chk_input" type="checkbox" id="check3" />
+                      <span>약관 3</span>
+                  </label>
+                  <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
               <li>
-                  <a href="#none" target="_blank" class="t_chk_link">
-                    <label class="t_chk_label" for="check4">
-                        <input class="t_chk_input" type="checkbox" id="check4"/>
-                        <span>약관 4</span>
-                    </label>
-                 </a>
+                  <label class="t_chk_label" for="check4">
+                      <input class="t_chk_input" type="checkbox" id="check4" />
+                      <span>약관 4</span>
+                  </label>
+                  <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
               <li>
-                  <a href="#none" target="_blank" class="t_chk_link">
-                     <label class="t_chk_label" for="check5">
-                         <input class="t_chk_input" type="checkbox" id="check5" />
-                         <span>약관 5</span>
-                     </label>
-                 </a>
+                  <label class="t_chk_label" for="check5">
+                      <input class="t_chk_input" type="checkbox" id="check5" />
+                      <span>약관 5</span>
+                  </label>
+                  <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
               <li>
-                  <a href="#none" target="_blank" class="t_chk_link">
-                     <label class="t_chk_label" for="check6">
-                         <input class="t_chk_input" type="checkbox" id="check6" />
-                         <span>약관 6</span>
-                     </label>
-                 </a>
+                  <label class="t_chk_label" for="check6">
+                      <input class="t_chk_input" type="checkbox" id="check6" />
+                      <span>약관 6</span>
+                  </label>
+                  <a href="#none" target="_blank" class="t_chk_link"><span class="hide">링크 이동</span></a>
               </li>
           </ul>
       </div>
@@ -103,20 +97,13 @@
             window.location.href = 'tos3.html';
         }
     });
-    // 체크박스 클릭 시 링크 이동 처리
-    document.querySelectorAll('.t_chk_label').forEach(label => {
-        label.addEventListener('click', function(e) {
-            const aTag = label.closest('a.t_chk_link');
-            // #none, '', '#' 링크는 이동하지 않음
-            if (aTag) {
-                const href = aTag.getAttribute('href');
-                if(href === '#none' || href === '' || href === '#') {
-                    return false;
-                }else{
-                    window.open(href, aTag.target || '_blank');
-                }
-                // 링크 이동
-
+    // 링크 클릭 시 체크박스 체크 및 링크 이동 처리
+    document.querySelectorAll('.t_chk_link').forEach(link => {
+        link.addEventListener('click', function() {
+            const li = link.closest('li');
+            const checkbox = li.querySelector('.t_chk_input');
+            if (checkbox) {
+                checkbox.checked = true;
             }
         });
     });

@@ -86,15 +86,16 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
     margin-top: 10px;
 }
 .check_list > li ~ li{margin-top: 20px}
-.check_list.box > li ~ li{margin-bottom:8px;}
-.check_list.box > li > a{
-    display: block;
+.check_list.box > li ~ li{margin-top: 8px}
+.check_list.box > li{
+    display:flex;
+    align-items: center;
     border: 1px solid #ccc;
     border-radius: 4px;
+
 }
-.check_list.box > li > a > label > span{
-    padding: 19px 16px 19px 42px;
-}
+.check_list.box > li > label{flex:1;}
+.check_list.box > li > label > span{padding: 18.5px 16px 18.5px 42px; display:block;}
 .t_chk_label input{
     clip: rect(0 0 0 0); width: 1px; height: 1px; position: absolute; overflow: hidden; margin: -1px; padding: 0; border: 0;
 }
@@ -114,10 +115,7 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
 .t_chk_label input:checked + span:before{
     background: url('../../assets/images/ic_check_on.png') no-repeat center / 18px auto;
 }
-.check_list.box .t_chk_label input + span:before{
-    top: 20px;
-    left: 16px;
-}
+
 .t_chk_label input + span:before{
     content: '';
     position: absolute;
@@ -127,7 +125,13 @@ ul::after, ol::after { content: ""; display: block; clear: both; }
     height: 18px;
     background: url('../../assets/images/ic_check_off.png') no-repeat center / 18px auto;
 }
-.check_list.box .t_chk_label input + span:after{
+.check_list.box .t_chk_label input + span:before{
+    top:50%;
+    transform: translateY(-50%);
+    left: 16px;
+}
+.check_list.box .t_chk_link{width:60px;height:60px; position: relative}
+.check_list.box .t_chk_link:after{
     content: '';
     display: block;
     position: absolute;
